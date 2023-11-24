@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.utils import get_user_db
 from src.config import SECRET_AUTH
-from src.user_profile.models import User, OAuthAccount
+from src.user_profile.models import User
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -45,7 +45,6 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         password = user_dict.pop("password")
         user_dict["hashed_password"] = self.password_helper.hash(password)
         user_dict["role_id"] = 1
-        user_dict["competencies"] = {}
 
         created_user = await self.user_db.create(user_dict)
 

@@ -22,12 +22,7 @@ from src.user_profile.router import router as user_router
 
 sentry_sdk.init(
     dsn=SENTRY_URL,
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
     traces_sample_rate=1.0,
-    # Set profiles_sample_rate to 1.0 to profile 100%
-    # of sampled transactions.
-    # We recommend adjusting this value in production.
     profiles_sample_rate=1.0,
 )
 
@@ -62,24 +57,6 @@ app.include_router(
     fastapi_users.get_users_router(UserRead, UserUpdate),
     prefix="/users",
     tags=["users"],
-)
-app.include_router(
-    fastapi_users.get_oauth_router(
-        google_oauth_client,
-        auth_backend,
-        SECRET_AUTH,
-        # redirect_url="http://127.0.0.1:8000/",
-        is_verified_by_default=True,
-    ),
-    prefix="/auth/google",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users.get_oauth_associate_router(
-        google_oauth_client, UserRead, "SECRET"
-    ),
-    prefix="/auth/associate/google",
-    tags=["auth"],
 )
 
 

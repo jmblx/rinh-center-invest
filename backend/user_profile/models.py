@@ -4,7 +4,6 @@ from typing import List
 from fastapi_users.db import (
     SQLAlchemyBaseOAuthAccountTableUUID,
     SQLAlchemyBaseUserTableUUID,
-    SQLAlchemyUserDatabase,
 )
 from sqlalchemy import JSON, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -21,10 +20,6 @@ class Role(Base):
     name: Mapped[str] = mapped_column(nullable=False)
     permissions: Mapped[JSON] = mapped_column(JSON)
     user: Mapped["User"] = relationship(back_populates="roles", uselist=False)
-
-
-class OAuthAccount(SQLAlchemyBaseOAuthAccountTableUUID, Base):
-    pass
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):
@@ -67,6 +62,3 @@ class User(SQLAlchemyBaseUserTableUUID, Base):
     is_active: Mapped[bool] = mapped_column(default=True)
     is_superuser: Mapped[bool] = mapped_column(default=False)
     is_verified: Mapped[bool] = mapped_column(default=True)
-    oauth_accounts: Mapped[List[OAuthAccount]] = relationship(
-        "OAuthAccount", lazy="joined"
-    )

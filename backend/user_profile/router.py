@@ -29,13 +29,3 @@ async def get_user_data(
         "registered_at": registered_at,
         "details": None,
     }
-
-
-@router.post("/set-competencies")
-async def set_competitions(
-    competencies: CompetenceSchema,
-    session: AsyncSession = Depends(get_async_session),
-    user: User = Depends(current_user),
-):
-    user.competencies = competencies.competencies
-    await session.commit()

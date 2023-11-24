@@ -7,7 +7,6 @@ from fastapi_users.authentication import (
     BearerTransport,
     JWTStrategy,
 )
-from httpx_oauth.clients.google import GoogleOAuth2
 
 
 from src.auth.manager import get_user_manager
@@ -15,15 +14,6 @@ from src.config import SECRET_AUTH
 from src.user_profile.models import User
 
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
-
-google_oauth_client = GoogleOAuth2(
-    os.getenv("GOOGLE_OAUTH_CLIENT_ID"),
-    os.getenv("GOOGLE_OAUTH_CLIENT_SECRET"),
-    scopes=[
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email",
-    ],
-)
 
 
 def get_jwt_strategy() -> JWTStrategy:

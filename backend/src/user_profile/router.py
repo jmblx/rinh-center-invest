@@ -18,13 +18,13 @@ async def get_user_data(
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    user_attrs = user.__dict__
-    username = user_attrs.get("username")
-    registered_at = user_attrs.get("registered_at")
-    # img =
+    first_name = user.first_name
+    second_name = user.second_name
+    registered_at = user.registered_at
     return {
         "status": "success",
-        "username": username,
+        "first_name": first_name,
+        "second_name": second_name,
         "registered_at": registered_at,
         "details": None,
     }

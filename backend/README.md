@@ -25,3 +25,5 @@ black --config pyproject.toml .
 ```shell
 docker-compose up -d
 ```
+celery -A src.report.tasks:celery worker --loglevel=INFO --pool=solo
+celery -A src.report.tasks:celery flower

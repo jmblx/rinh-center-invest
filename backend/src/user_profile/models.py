@@ -14,6 +14,8 @@ from src.processing_credit.models import Request
 class User(SQLAlchemyBaseUserTableUUID, Base):
     __tablename__ = "user"
 
+    first_name: Mapped[str]
+    last_name: Mapped[str]
     email: Mapped[str]
     registered_at: Mapped[added_at]
     hashed_password: Mapped[str] = mapped_column(

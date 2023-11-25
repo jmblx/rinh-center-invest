@@ -13,12 +13,47 @@ services:
       - custom
     volumes:
       - db-data:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    container_name: redis_app
+    command: --port 5370
+    expose:
+      - 5370
+  celery:
+    build:
+      context: .
+    env_file:
+      - .env-prod
+    container_name: celery_app
+    command: [ "/fastapi_app/docker/celery.sh", "celery" ]
+    depends_on:
+      - redis
+    networks:
+      - custom
+
+  flower:
+    build:
+      context: .
+    env_file:
+      - .env-prod
+    container_name: flower_app
+    command: [ "/fastapi_app/docker/celery.sh", "flower" ]
+    depends_on:
+      - redis
+      - celery
+    ports:
+      - 8888:5555
+    networks:
+      - custom
   fastapi_app:
     env_file:
       - .env-non-dev
     container_name: fastapi_app
     image: menoitami/center-invest-backend
     command: [ "/fastapi_app/docker/app.sh" ]
+    depends_on:
+      - db
+      - redis
     ports:
       - "8000:8000"
     networks:
@@ -52,6 +87,7 @@ services:
     networks:
       - custom
     user: "0"
+
 networks:
   custom:
     driver: bridge

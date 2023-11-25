@@ -1,4 +1,4 @@
-from sqlalchemy import TEXT, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.database import Base
@@ -28,5 +28,8 @@ class Request(Base):
         "User",
         back_populates="requests",
         uselist=False,
+    )
+    is_good_client: Mapped[float] = mapped_column(
+        nullable=True
     )
 

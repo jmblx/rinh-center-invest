@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    width: 500px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: #F0F8FE;
+    text-align: center;
+    padding: 20px;
+}
+
+.status-image {
+    width: 400px; /* Adjust as per the screenshot */
+    height: auto;
+    margin-top: 10px;
+    margin-block-end: 10px;
+}
+
+.decline-header {
+    color: #000; /* A strong red for declined header */
+    font-size: 50px; /* Larger font size as per the screenshot */
+    margin: 20px 0;
+}
+
+.user-message {
+    color: #000;
+    font-size: 18px; /* Adjusting the font size for better readability */
+    /* margin-bottom: 10px; */
+    text-align: left;
+    padding-left: 55px;
+    padding-right: 18px;
+}
+
+.visit-less {
+    color: #3D9C77;
+    font-size: 24px; /* Larger text as it's a strong statement */
+    margin-top: 30px; /* Giving more space above this line */
+    font-weight: bold;
+}

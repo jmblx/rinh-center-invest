@@ -8,7 +8,7 @@ def use_model(data: dict):
   df_to_predict = pd.DataFrame(data)
 
   # Загрузка модели
-  model = load_model('model.h5')
+  model = load_model('credit_score_model.h5')
 
   # Предобработка данных для предсказания
   X_to_predict = preprocessor.transform(df_to_predict)

@@ -2,7 +2,7 @@ import json
 
 import fastapi
 from fastapi import Depends, Response
-from sqlalchemy import insert
+from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.base_config import current_user
@@ -11,23 +11,38 @@ from src.processing_credit.processing_model import use_model
 from src.user_profile.models import User
 from src.utils import get_data
 from src.processing_credit.models import Request
+from src.report.tasks import send_email_report_dashboard
 
 router = fastapi.APIRouter(prefix="/credit", tags=["credit"])
 
 
 @router.post("/processing_request")
-async def appeal_neuro(
+async def processing_request(
     data: dict,
     session: AsyncSession = Depends(get_async_session),
     user: User = Depends(current_user),
 ):
-    result_for_front = use_model(data)
+    result = (use_model(data))[0][0]
     data = {key: value[0] for key, value in data.items()}
     data["user_id"] = user.id
+    data["is_good_client"] = float(result)
     stmt = (
         insert(Request).values(**data)
     )
     await session.execute(stmt)
     await session.commit()
+    send_email_report_dashboard.delay(user.first_name, user.email, int(result))
+    return {"result": str(result)}
 
-    return {"result": str(result_for_front[0][0])}
+
+@router.get("get_requests")
+async def get_requests(
+    user: User = Depends(current_user)
+):
+    requests = await get_data(
+        class_=Request,
+        filter=Request.user_id == user.id,
+        is_scalar=False,
+        order_by=Request.created_at
+    )
+    return requests

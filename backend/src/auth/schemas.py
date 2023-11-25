@@ -16,6 +16,8 @@ class UserRead(schemas.BaseUser[uuid.UUID]):
 
 
 class UserCreate(schemas.BaseUserCreate):
+    first_name: str
+    last_name: str
     email: EmailStr
     password: str
     is_active: Optional[bool] = True

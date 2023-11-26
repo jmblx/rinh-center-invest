@@ -20,7 +20,7 @@ def get_email_template_dashboard(
     email = EmailMessage()
     email['Subject'] = 'Отчет по заявке на кредит'
     email['From'] = SMTP_USER
-    email['To'] = "zhora.zhilin.06@mail.ru"
+    email['To'] = user_email
 
     current_script_path = os.path.abspath(__file__)
 

@@ -14,15 +14,19 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
   fastapi_app:
+    image: menoitami/rinh-hack-fast-api
     env_file:
       - .env-non-dev
     container_name: fastapi_app
-    image: menoitami/center-invest-backend
     command: [ "/fastapi_app/docker/app.sh" ]
     ports:
       - "8000:8000"
+    expose:
+      - 8000
     networks:
       - custom
+    depends_on:
+      - db
   prometheus:
     depends_on:
       - fastapi_app

@@ -35,7 +35,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         email = EmailMessage()
         email['Subject'] = 'Отчет по заявке на кредит'
         email['From'] = SMTP_USER
-        email['To'] = "zhora.zhilin.06@mail.ru" # user.email
+        email['To'] = user.email
         email_content = f"""
             Здравствуйте! На вашем аккаунте пытались сбросить пароль
             Если это не вы то игнорируйте сообщение. Иначе можете сбросить пароль

@@ -1,4 +1,6 @@
+import smtplib
 import uuid
+from email.message import EmailMessage
 from typing import Optional
 
 from fastapi import Depends, Request
@@ -9,11 +11,13 @@ from fastapi_users import (
     models,
     schemas,
 )
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.auth.utils import get_user_db
 from src.config import SECRET_AUTH
+from src.constants import SMTP_HOST, SMTP_PORT
 from src.user_profile.models import User
+
+from src.config import SMTP_PASSWORD, SMTP_USER
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -24,6 +28,27 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
         self, user: User, request: Optional[Request] = None
     ):
         print(f"User {user.id} has registered.")
+
+    async def on_after_forgot_password(
+        self, user: User, token: str, request: Optional[Request] = None
+    ):
+        email = EmailMessage()
+        email['Subject'] = 'Отчет по заявке на кредит'
+        email['From'] = SMTP_USER
+        email['To'] = "zhora.zhilin.06@mail.ru" # user.email
+        email_content = f"""
+            Здравствуйте! На вашем аккаунте пытались сбросить пароль
+            Если это не вы то игнорируйте сообщение. Иначе можете сбросить пароль
+            по следующей ссылке: {token}
+        """
+        email.set_content(
+            email_content,
+            subtype='html'
+        )
+        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.send_message(email)
+
 
     async def create(
         self,

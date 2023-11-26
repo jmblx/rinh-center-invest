@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отказ в кредите</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <h1 class="decline-header">НЕ ОДОБРЕНО!</h1>
+        <img src="{{ absolute_image_path }}" alt="Не одобрено" class="status-image">
+        <p class="user-message">
+            {{ user_first_name }}, мы сожалеем! Вам не одобрили вашу заявку на получение кредита.
+        </p>
+        <div class="visit-less">Заходите к нам меньше!!!</div>
+    </div>
+</body>
+</html>

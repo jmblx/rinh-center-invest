@@ -3,6 +3,7 @@ from sqlalchemy import select
 from src.database import async_session_maker
 
 
+# Базовая функция для сбора данных с БД
 async def get_data(
     class_,
     filter,
@@ -22,10 +23,19 @@ async def get_data(
             res = [result[0] for result in res]
     return res
 
+
+# Рендер шаблона. Мы в курсе про Jinja2, но с ней были проблемы :(
 def render_email(
     user_first_name,
-    encoded_image
+    encoded_image,
+    verdict
 ):
+    if verdict == "Одобрено":
+        verbose_verdict = f"Здравствуйте, {user_first_name}," \
+                          f" мы поздравляем вас! Вам одобрили вашу заявку на получение кредита."
+    else:
+        verbose_verdict = f"Здравствуйте, {user_first_name}," \
+                          f" мы сожалеем! Вам не одобрили вашу заявку на получение кредита."
     return f"""
         <!DOCTYPE html>
         <html lang="ru">
@@ -33,7 +43,7 @@ def render_email(
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Отказ в кредите</title>
+            <title>Вердикт по заявке</title>
             <style>
                 body {{
                     font-family: 'Arial', sans-serif;
@@ -77,10 +87,10 @@ def render_email(
         </head>
         <body>
             <div class="card">
-                <h1 class="decline-header">НЕ ОДОБРЕНО!</h1>
-                <img src="data:image/png;base64,{encoded_image}" alt="Не одобрено" class="status-image">
+                <h1 class="decline-header">{verdict}</h1>
+                <img src="data:image/png;base64,{encoded_image}" alt={verdict} class="status-image">
                 <p class="user-message">
-                    {user_first_name}, мы сожалеем! Вам не одобрили вашу заявку на получение кредита.
+                    {verbose_verdict}
                 </p>
                 <div class="visit-less">Заходите к нам меньше!!!</div>
             </div>

@@ -11,7 +11,6 @@ from src.auth.base_config import (
 )
 from src.auth.schemas import UserCreate, UserRead, UserUpdate
 from src.config import SENTRY_URL, SECRET_AUTH
-from src.homepage.router import router as homepage_router
 from src.user_profile.router import router as user_router
 from src.processing_credit.router import router as processing_credit_router
 
@@ -24,10 +23,11 @@ sentry_sdk.init(
 
 app = FastAPI(title="requests proceed API")
 
-app.include_router(homepage_router)
+# Подключение роутеров для обработки отчётов
 app.include_router(user_router)
 app.include_router(processing_credit_router)
 
+# Подключение роутеров для авторизации
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
@@ -54,10 +54,8 @@ app.include_router(
     tags=["users"],
 )
 
-origins = [
-    "http://localhost:3000",
-    "http://localhost:19006"
-]
+# Регулировка обращений к API с других адресов
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,

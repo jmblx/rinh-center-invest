@@ -7,6 +7,7 @@ from src.my_type_notation import added_at, intpk
 
 class Request(Base):
     __tablename__ = "request"
+    # Модель для базы данных заявки на кредит
 
     id: Mapped[intpk]
     month: Mapped[int]

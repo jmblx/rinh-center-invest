@@ -2,6 +2,8 @@ import os
 
 from dotenv import load_dotenv
 
+# Загружаем скрытые данные из файла .env
+
 load_dotenv()
 
 DB_HOST = os.environ.get("DB_HOST")

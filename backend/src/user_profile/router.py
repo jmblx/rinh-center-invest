@@ -12,7 +12,7 @@ from src.user_profile.models import User
 
 router = fastapi.APIRouter(prefix="/profile", tags=["user-profile"])
 
-
+# Эндпоинт для получения основных данных пользователя
 @router.get("/")
 async def get_user_data(
     session: AsyncSession = Depends(get_async_session),
@@ -21,7 +21,6 @@ async def get_user_data(
     return {
         "status": "success",
         "first_name": user.first_name,
-        "last_name": user.last_name,
         "registered_at": user.registered_at,
         "details": None,
     }

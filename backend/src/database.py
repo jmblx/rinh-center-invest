@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 from src.config import DB_HOST, DB_NAME, DB_PASS, DB_PORT, DB_USER
 
+# Ссылка на базу данных для создания сессий
 DATABASE_URL = (
     f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
@@ -18,6 +19,7 @@ async_session_maker = sessionmaker(
 )
 
 
+# Функция создания асинхронных сессий
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session

@@ -4,6 +4,7 @@ from typing import Annotated
 from sqlalchemy import text  # , ForeignKey
 from sqlalchemy.orm import mapped_column
 
+# Базовые аннотации для моделей БД
 added_at = Annotated[
     datetime.datetime,
     mapped_column(

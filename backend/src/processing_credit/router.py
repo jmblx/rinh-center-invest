@@ -14,6 +14,7 @@ from src.report.tasks import send_email_report_dashboard
 router = fastapi.APIRouter(prefix="/credit", tags=["credit"])
 
 
+# Эндпоинт выдачи вердикта моделью заявке на кредит
 @router.post("/processing_request")
 async def processing_request(
     data: dict,
@@ -39,7 +40,8 @@ async def processing_request(
     return {"result": str(result)}
 
 
-@router.get("get_requests")
+# Эндпоинт получения всех заявок пользователя
+@router.get("/get_requests")
 async def get_requests(
     user: User = Depends(current_user)
 ):

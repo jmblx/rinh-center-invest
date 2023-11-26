@@ -11,11 +11,11 @@ from src.my_type_notation import added_at
 from src.processing_credit.models import Request
 
 
+# модель пользователя для базы данных
 class User(SQLAlchemyBaseUserTableUUID, Base):
     __tablename__ = "user"
 
     first_name: Mapped[str]
-    last_name: Mapped[str]
     email: Mapped[str]
     registered_at: Mapped[added_at]
     hashed_password: Mapped[str] = mapped_column(

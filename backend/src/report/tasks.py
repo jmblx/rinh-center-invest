@@ -12,6 +12,7 @@ from src.utils import render_email
 from src.constants import SMTP_HOST, SMTP_PORT
 
 
+# создание шаблона для отправки на почту
 def get_email_template_dashboard(
     user_first_name: str,
     user_email: str,
@@ -27,13 +28,15 @@ def get_email_template_dashboard(
     script_directory = os.path.dirname(current_script_path)
     if request_verdict > 0.5:
         relative_image_path = "../static/НЕ_ОДОБРЕНО.png"
+        verdict = "Не одобрено"
     else:
         relative_image_path = "../static/ОДОБРЕНО.png"
+        verdict = "Одобрено"
     image_path = os.path.abspath(os.path.join(script_directory, relative_image_path))
     with open(image_path, "rb") as image_file:
         # Кодирование изображения в base64
         encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
-    email_content = render_email(user_first_name, encoded_image)
+    email_content = render_email(user_first_name, encoded_image, verdict)
     email.set_content(
         email_content,
         subtype='html'
@@ -41,6 +44,7 @@ def get_email_template_dashboard(
     return email
 
 
+# отправка на почту отчёта
 def send_email_report_dashboard(
     user_first_name: str,
     user_email: str,

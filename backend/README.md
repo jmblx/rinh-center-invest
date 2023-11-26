@@ -1,27 +1,29 @@
-# Tinkoff Case
-## Создания виртуального окружения
+# Rinh-hack. Center-invest-case
+## Процесс разработки
+### Создания виртуального окружения
 ```shell
 python -m venv venv
 venv\Scripts\activate
 ```
-## Установка зависимостей
+### Установка зависимостей
 ```shell
 pip install -r requirements\dev.txt
 ```
-## Запустить сервер
+### Запустить сервер
 ```shell
 uvicorn src.main:app --reload
 ```
-## Миграции
+### Миграции
 ```shell
 alembic revision --autogenerate
 alembic upgrade head
 ```
-## Реформат кода по pep8
+### Реформат кода по pep8
 ```shell
 black --config pyproject.toml . 
 ```
-## Хост с команды:
+## Продакшн
+### Хост с команда:
 ```shell
 docker-compose up -d
 ```

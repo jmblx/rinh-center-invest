@@ -31,9 +31,9 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     async def on_after_forgot_password(
         self, user: User, token: str, request: Optional[Request] = None
-    ):
+    ): ## Отправка пользователю на почту токена для обновления пароля
         email = EmailMessage()
-        email['Subject'] = 'Отчет по заявке на кредит'
+        email['Subject'] = 'Восстановление пароля'
         email['From'] = SMTP_USER
         email['To'] = user.email
         email_content = f"""
